@@ -1,0 +1,72 @@
+# -------------------------------
+# Python
+# -------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Byte-compiled / optimized / DLL files
+*.so
+*.dll
+*.dylib
+
+# -------------------------------
+# Virtual Environment
+# -------------------------------
+venv/
+env/
+ENV/
+myenv/
+.virtualenv/
+
+# -------------------------------
+# Environment Variables
+# -------------------------------
+.env
+.env.*
+!.env.example
+
+# -------------------------------
+# Logs
+# -------------------------------
+*.log
+logs/
+*.out
+
+# -------------------------------
+# Testing / Coverage
+# -------------------------------
+.coverage
+htmlcov/
+pytest_cache/
+.tox/
+.nox/
+
+# -------------------------------
+# Cache / Build
+# -------------------------------
+__pycache__/
+build/
+dist/
+*.egg-info/
+.eggs/
+.cache/
+.mypy_cache/
+.pytest_cache/
+.dmypy.json
+
+# -------------------------------
+# IDE / Editor
+# -------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -------------------------------
+# OS Files
+# -------------------------------
+.DS_Store
+Thumbs.db
