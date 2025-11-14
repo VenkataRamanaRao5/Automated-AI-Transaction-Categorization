@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Pie } from 'react-chartjs-2'
 import {
@@ -15,6 +15,7 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 function Results() {
   const [predictions, setPredictions] = useState([])
   const [summary, setSummary] = useState(null)
+  const [expandedRows, setExpandedRows] = useState(new Set())
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -36,11 +37,23 @@ function Results() {
     }
   }, [navigate])
 
+  const toggleRow = (index) => {
+    const newExpanded = new Set(expandedRows)
+    if (newExpanded.has(index)) {
+      newExpanded.delete(index)
+    } else {
+      newExpanded.add(index)
+    }
+    setExpandedRows(newExpanded)
+  }
+
   // Calculate category counts for pie chart
   const getCategoryCounts = () => {
     const counts = {}
     predictions.forEach((pred) => {
-      counts[pred] = (counts[pred] || 0) + 1
+      // Handle both old format (string) and new format (object with category)
+      const category = typeof pred === 'string' ? pred : pred.category
+      counts[category] = (counts[category] || 0) + 1
     })
     return counts
   }
@@ -122,17 +135,75 @@ function Results() {
         <table className="table">
           <thead>
             <tr>
+              <th style={{ width: '50px' }}></th>
               <th>Row #</th>
-              <th>Prediction</th>
+              <th>Category</th>
             </tr>
           </thead>
           <tbody>
-            {predictions.map((prediction, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{prediction}</td>
-              </tr>
-            ))}
+            {predictions.map((prediction, index) => {
+              const category = typeof prediction === 'string' ? prediction : prediction.category
+              const explanation = typeof prediction === 'object' ? prediction.explanation : null
+              const isExpanded = expandedRows.has(index)
+              
+              return (
+                <React.Fragment key={index}>
+                  <tr 
+                    className={explanation ? "expandable-row" : ""}
+                    onClick={() => explanation && toggleRow(index)}
+                  >
+                    <td>
+                      {explanation && (
+                        <span style={{ marginRight: '0.5rem' }}>
+                          {isExpanded ? '▼' : '▶'}
+                        </span>
+                      )}
+                    </td>
+                    <td>{index + 1}</td>
+                    <td>{category}</td>
+                  </tr>
+                  {isExpanded && explanation && (
+                    <tr key={`${index}-expanded`}>
+                      <td colSpan="3">
+                        <div className="expanded-content">
+                          <div className="explanation-section">
+                            <h4>Explanation</h4>
+                            {explanation.tokens && (
+                              <div className="explanation-item">
+                                <span className="explanation-label">Tokens:</span>
+                                <span className="explanation-value">
+                                  {Array.isArray(explanation.tokens) 
+                                    ? explanation.tokens.join(', ') 
+                                    : explanation.tokens}
+                                </span>
+                              </div>
+                            )}
+                            {explanation.rule_triggered && (
+                              <div className="explanation-item">
+                                <span className="explanation-label">Rule Triggered:</span>
+                                <span className="explanation-value">
+                                  {explanation.rule_triggered}
+                                </span>
+                              </div>
+                            )}
+                            {explanation.nearest_merchants && (
+                              <div className="explanation-item">
+                                <span className="explanation-label">Nearest Merchants:</span>
+                                <span className="explanation-value">
+                                  {Array.isArray(explanation.nearest_merchants)
+                                    ? explanation.nearest_merchants.join(', ')
+                                    : explanation.nearest_merchants}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              )
+            })}
           </tbody>
         </table>
       </div>

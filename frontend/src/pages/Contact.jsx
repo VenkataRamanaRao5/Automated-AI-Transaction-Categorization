@@ -5,22 +5,22 @@ function Contact() {
     {
       name: 'Sachin K S',
       role: 'Member',
-      email: 'john.doe@finclassify.com',
+      email: 'sachinsenthilvel2005@gmail.com',
     },
     {
       name: 'VenkatRamana Rao C V',
       role: 'Member',
-      email: 'jane.smith@finclassify.com',
+      email: 'venkatraocv2005@gmail.com',
     },
     {
       name: 'Yugash D',
       role: 'Member',
-      email: 'bob.johnson@finclassify.com',
+      email: 'dyugash@gmail.com',
     },
     {
       name: 'Priya',
       role: 'Member',
-      email: 'alice.williams@finclassify.com',
+      email: 'priyadharshinivijay2005@gmail.com',
     },
   ]
 

@@ -1,0 +1,130 @@
+{
+    "version": "1.0.0",
+    "description": "Transaction classification taxonomy for budgeting & analytics.",
+    "categories": [
+      {
+        "name": "Income",
+        "subcategories": [
+          "Salary",
+          "Business Income",
+          "Investment Income",
+          "Refunds",
+          "Other Income"
+        ]
+      },
+      {
+        "name": "Food & Dining",
+        "subcategories": [
+          "Restaurants",
+          "Fast Food",
+          "Cafes",
+          "Groceries",
+          "Snacks & Beverages",
+          "Food Delivery"
+        ]
+      },
+      {
+        "name": "Shopping",
+        "subcategories": [
+          "Clothing",
+          "Electronics",
+          "Online Shopping",
+          "Home & Furniture",
+          "Personal Care",
+          "Gifts"
+        ]
+      },
+      {
+        "name": "Transportation",
+        "subcategories": [
+          "Fuel",
+          "Taxi & Ride Share",
+          "Public Transport",
+          "Vehicle Maintenance",
+          "Parking",
+          "Tolls"
+        ]
+      },
+      {
+        "name": "Bills & Utilities",
+        "subcategories": [
+          "Electricity",
+          "Water",
+          "Internet",
+          "Mobile Recharge",
+          "Gas",
+          "Home Services",
+          "Subscriptions"
+        ]
+      },
+      {
+        "name": "Health & Fitness",
+        "subcategories": [
+          "Medical",
+          "Pharmacy",
+          "Health Insurance",
+          "Gym",
+          "Sports"
+        ]
+      },
+      {
+        "name": "Entertainment",
+        "subcategories": [
+          "Movies & Shows",
+          "Games",
+          "Streaming",
+          "Events",
+          "Leisure Activities"
+        ]
+      },
+      {
+        "name": "Travel",
+        "subcategories": [
+          "Flights",
+          "Hotels",
+          "Travel Booking",
+          "Tours & Activities",
+          "Travel Insurance"
+        ]
+      },
+      {
+        "name": "Finance",
+        "subcategories": [
+          "Bank Charges",
+          "ATM Withdrawals",
+          "Loan Payments",
+          "Investments",
+          "Mutual Funds",
+          "Credit Card Payments"
+        ]
+      },
+      {
+        "name": "Home & Family",
+        "subcategories": [
+          "Rent",
+          "Home Supplies",
+          "Maintenance",
+          "Child Care",
+          "Pet Care"
+        ]
+      },
+      {
+        "name": "Education",
+        "subcategories": [
+          "Fees",
+          "Books & Stationery",
+          "Courses",
+          "Certifications"
+        ]
+      },
+      {
+        "name": "Other",
+        "subcategories": [
+          "Uncategorized",
+          "Miscellaneous",
+          "Unknown"
+        ]
+      }
+    ]
+  }
+  
