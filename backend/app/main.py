@@ -3,8 +3,8 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any
-from app.predictor import predict_from_csv
-from app.taxonomy_handler import get_taxonomy, update_taxonomy
+from predictor import predict_from_csv
+from taxonomy_handler import get_taxonomy, update_taxonomy
 
 app = FastAPI()
 

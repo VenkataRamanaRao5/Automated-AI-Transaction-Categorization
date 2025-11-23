@@ -145,6 +145,7 @@ function Results() {
               const category = typeof prediction === 'string' ? prediction : prediction.category
               const explanation = typeof prediction === 'object' ? prediction.explanation : null
               const isExpanded = expandedRows.has(index)
+              console.log(explanation)
               
               return (
                 <React.Fragment key={index}>
@@ -178,11 +179,11 @@ function Results() {
                                 </span>
                               </div>
                             )}
-                            {explanation.rule_triggered && (
+                            {explanation.confidence && (
                               <div className="explanation-item">
-                                <span className="explanation-label">Rule Triggered:</span>
+                                <span className="explanation-label">Confidence score:</span>
                                 <span className="explanation-value">
-                                  {explanation.rule_triggered}
+                                  {explanation.confidence}
                                 </span>
                               </div>
                             )}

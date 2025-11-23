@@ -1,5 +1,8 @@
 import pandas as pd
 from typing import Tuple, List, Dict, Any
+from model_interface import ModelInterface
+
+model_interface = ModelInterface("bert-category-model")
 
 def predict_from_csv(csv_path: str) -> Tuple[List[Dict[str, Any]], Dict]:
     """
@@ -37,12 +40,14 @@ def predict_from_csv(csv_path: str) -> Tuple[List[Dict[str, Any]], Dict]:
     # Generate predictions with explanations
     predictions = []
     for i in range(len(df)):
-        category = f"category{i % 3 + 1}"
-        explanation = explanation_templates[category].copy()
+        category, conf_score = model_interface.predict(df.iloc[i, 0])
         
         predictions.append({
             "category": category,
-            "explanation": explanation
+            "explanation": {
+                "tokens": df.iloc[i, 0],
+                "confidence": f"{conf_score:.2f}",
+            }
         })
     
     # Create summary

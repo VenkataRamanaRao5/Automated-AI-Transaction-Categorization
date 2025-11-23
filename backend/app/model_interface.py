@@ -1,5 +1,9 @@
 from typing import List, Any
 import os
+import torch
+import pickle
+from transformers import BertTokenizer, BertForSequenceClassification
+from torch.functional import F
 
 class ModelInterface:
     """
@@ -14,19 +18,17 @@ class ModelInterface:
         Args:
             model_path: Path to the saved model file (e.g., "models/model.pkl")
         """
-        self.model_path = model_path or os.getenv("MODEL_PATH", "models/model.pkl")
-        self.model = None
+        self.model_path = model_path or os.getenv("MODEL_PATH", "bert-category-model")
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.model = BertForSequenceClassification.from_pretrained(self.model_path).to(self.device)
+        self.tokenizer = BertTokenizer.from_pretrained(self.model_path)
+        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        with open('label_encoder.pkl', 'rb') as f:
+            self.label_encoder = pickle.load(f)
+
         self.loaded = False
     
-    def load_model(self):
-        """
-        Load the model from the specified path.
-        This is a placeholder method for future implementation.
-        """
-        self.loaded = True
-        pass
-    
-    def predict(self, data: Any) -> List[str]:
+    def predict(self, data: Any, max_len=128) -> List[str]:
         """
         Make predictions on the provided data.
         
@@ -36,7 +38,25 @@ class ModelInterface:
         Returns:
             List of predictions
         """
-        return []
+        self.model.eval()
+        encoding = self.tokenizer.encode_plus(
+            data,
+            add_special_tokens=True,
+            max_length=max_len,
+            padding='max_length',
+            truncation=True,
+            return_tensors='pt'
+        )
+        input_ids = encoding['input_ids'].to(self.device)
+        attention_mask = encoding['attention_mask'].to(self.device)
+
+        with torch.no_grad():
+            outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
+            logits = outputs.logits
+            probs = F.softmax(logits, dim=1)
+            conf_score, pred_idx = torch.max(probs, dim=1)
+            pred_label = self.label_encoder.inverse_transform([pred_idx.item()])[0]
+        return [pred_label, conf_score.item()]
     
     def predict_batch(self, data_list: List[Any]) -> List[str]:
         """
